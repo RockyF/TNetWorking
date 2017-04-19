@@ -23,7 +23,7 @@ configs.put("serializer", new JsonSerializerImpl());
 configs.put("timeout", 2000);
 configs.put("bufferSize", 1024);
 TNetWorkingManager manager = new TNetWorkingManager(configs); //configs can be null
-manager.download("http://aliengame.online/cdn/niuniu/170418181125.zip", null, desFile, new INetWorkingDelegate() {
+manager.download("the file url", null, desFile, new INetWorkingDelegate() {
 	@Override
 	public void onSuccess(Object response) {
 		File file = (File)response;
