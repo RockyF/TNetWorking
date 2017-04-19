@@ -3,10 +3,11 @@
   <groupId>com.aliencoder</groupId>
   <artifactId>tnetworking</artifactId>
   <versioning>
-    <release>1.0</release>
+    <release>1.0.0</release>
     <versions>
       <version>1.0</version>
+      <version>1.0.0</version>
     </versions>
-    <lastUpdated>20170419091441</lastUpdated>
+    <lastUpdated>20170419092522</lastUpdated>
   </versioning>
 </metadata>
