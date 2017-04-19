@@ -17,20 +17,23 @@ import java.util.HashMap;
  */
 public class HttpRequest extends AsyncTask<Object, Integer, Object> {
 	private static String TAG = "HttpRequest";
-	private static final int BUFFER_SIZE = 1024 * 4;
 
 	public INetWorkingDelegate netWorkingDelegate;
 	int timeout;
+	int bufferSize;
 
 	String requestURL;
 	String method;
 	INetWorkingTask task;
 
+	private String nextError = "error";
+
 	public INetWorkingSerializer serializer;
 
-	public HttpRequest(INetWorkingDelegate netWorkingDelegate, int timeout) {
+	public HttpRequest(INetWorkingDelegate netWorkingDelegate, int timeout, int bufferSize) {
 		this.netWorkingDelegate = netWorkingDelegate;
 		this.timeout = timeout;
+		this.bufferSize = bufferSize;
 	}
 
 	public void doTask(String url, INetWorkingTask netWorkingTask, INetWorkingSerializer netWorkingSerializer){
@@ -60,9 +63,9 @@ public class HttpRequest extends AsyncTask<Object, Integer, Object> {
 
 			task.parseRequest(conn);
 
-			int res = conn.getResponseCode();
-			if (res == 200) {
-				byte[] buffer = new byte[BUFFER_SIZE];
+			int responseCode = conn.getResponseCode();
+			if (responseCode == 200) {
+				byte[] buffer = new byte[bufferSize];
 				int total = conn.getContentLength();
 				int read;
 				int progress = 0;
@@ -79,12 +82,14 @@ public class HttpRequest extends AsyncTask<Object, Integer, Object> {
 				response = serializer.parse(baos.toByteArray());
 			} else {
 				response = null;
+				nextError = "error with response code: " + responseCode;
 				cancel(true);
 			}
 
 		} catch (IOException e) {
 			e.printStackTrace();
 
+			nextError = "invalid url: " + requestURL;
 			cancel(true);
 		} finally {
 			if (conn != null) {
@@ -112,7 +117,8 @@ public class HttpRequest extends AsyncTask<Object, Integer, Object> {
 	@Override
 	protected void onCancelled(Object o) {
 		if (netWorkingDelegate != null) {
-			netWorkingDelegate.onError("");
+			netWorkingDelegate.onError(nextError);
+			nextError = "error";
 		}
 	}
 }

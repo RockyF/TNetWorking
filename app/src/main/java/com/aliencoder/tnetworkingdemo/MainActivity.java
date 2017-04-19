@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
 
 		File gameRoot = new File(getFilesDir(), "game");
 		File desFile = new File(gameRoot, "temp.zip");
-		manager = TNetWorkingManager.getInstance();
+		manager = new TNetWorkingManager(null);
 		manager.download("http://aliengame.online/cdn/niuniu/170418181125.zip", null, desFile, new INetWorkingDelegate() {
 			@Override
 			public void onSuccess(Object response) {
