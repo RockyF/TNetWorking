@@ -11,7 +11,7 @@ repositories {
 }
 
 dependencies {
-	compile 'com.aliencoder:tnetworking:1.0.0'
+	compile 'com.aliencoder:tnetworking:1.0.1'
 }
 ```
 
