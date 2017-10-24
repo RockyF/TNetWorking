@@ -2,10 +2,9 @@ package com.aliencoder.tnetworking.serializer;
 
 import android.util.Log;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.HashMap;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONException;
+import com.alibaba.fastjson.JSONObject;
 
 /**
  * Created by rockyl onVersionSuccess 16/2/17.
@@ -18,11 +17,10 @@ public class JsonSerializerImpl extends TextSerializerImpl {
 		String body = (String)super.parse(bytes);
 
 		JSONObject json = null;
-		try {
-			json = new JSONObject(body);
-		} catch (JSONException e) {
+		try{
+			json = (JSONObject) JSON.parse(body);
+		}catch(JSONException exception){
 			Log.i(TAG, "response decode failed: " + body);
-			e.printStackTrace();
 		}
 
 		return json;
